@@ -1,0 +1,7 @@
+{
+    "watch": ["src", "functions"],
+    "ext": "js,ts,json",
+    "ignore": ["node_modules"],
+    "exec": "npm run build && firebase emulators:start --only functions"
+  }
+  
