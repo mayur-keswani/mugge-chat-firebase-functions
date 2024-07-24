@@ -25,6 +25,7 @@ function hashPassword(password: string) {
 export const loginHandler = async (request: Request, response: Response) => {
   try {
     const { email, password } = request.body?.input?.credentials;
+    // console.log(process.env)
     const HASURA_URL = process.env.HASURA_URL!;
   
     const { data } = await axios.post(
@@ -44,7 +45,7 @@ export const loginHandler = async (request: Request, response: Response) => {
       console.log(data.errors);
       throw new Error("Something went wrong!");
     }
-
+    
     if (data?.data?.users.length === 0) {
       response.status(401).send({ message: `Invalid email or password` });
     }
@@ -57,7 +58,7 @@ export const loginHandler = async (request: Request, response: Response) => {
       response.status(401).send({ message: "Invalid email or password" });
     }
     
-    const secret= process.env.JWT_SECRET!;
+    const secret= process.env.AUTH_JWT_SECRET!;
     const accessToken = jwt.sign(
       {
         userId: user.id,
@@ -81,7 +82,7 @@ export const loginHandler = async (request: Request, response: Response) => {
       username: user.username
     });
   } catch (error: any) {
-    // console.log(error)
+    console.log({error})
     response.status(500).send({ message: error.message });
   }
 };

@@ -45,7 +45,7 @@ export const registerHandler = async (request: Request, response: Response) => {
     }
 
     let user = data?.data?.insert_users_one ?? {};
-    const secret = process.env.JWT_SECRET!;
+    const secret = process.env.AUTH_JWT_SECRET!;
     const accessToken = jwt.sign(
       {
         userId: user.id,
@@ -69,6 +69,7 @@ export const registerHandler = async (request: Request, response: Response) => {
       roleType:user.role_type
     });
   } catch (error: any) {
+    console.log({error})
     response.status(500).send({ message: `Message: ${error.message}` });
   }
 };
