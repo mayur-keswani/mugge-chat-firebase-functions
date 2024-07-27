@@ -9,7 +9,8 @@ export const uploadHandler = async (request: Request, response: Response) => {
   try {
     const { base64, filename,filetype } = request.body.input.attachment;
     const bucket = admin.storage().bucket();
-    const buffer = Buffer.from(base64, "base64");
+    const base64EncodedImageString = base64.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64EncodedImageString, "base64");
     const file = bucket.file(filename);
     
     await file.save(buffer, {
